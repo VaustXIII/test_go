@@ -2,13 +2,25 @@ package main
 
 import (
 	"fmt"
+	"html"
+	"log"
+	"net/http"
 )
 
-func GetMeaningOfLifeUniverseAndStuff() int {
-	return 42
+func GetHello() string {
+	return "Hi"
 }
 
 func main() {
-	fmt.Println("hello world")
-	fmt.Println(GetMeaningOfLifeUniverseAndStuff())
+
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprintf(w, "Hello, %q", html.EscapeString(r.URL.Path))
+	})
+
+	http.HandleFunc("/hi", func(w http.ResponseWriter, r *http.Request) {
+		fmt.Fprint(w, GetHello())
+	})
+
+	log.Fatal(http.ListenAndServe(":8081", nil))
+
 }
