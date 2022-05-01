@@ -1,7 +1,14 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
+
+func GetMeaningOfLifeUniverseAndStuff() int {
+	return 42
+}
 
 func main() {
 	fmt.Println("hello world")
+	fmt.Println(GetMeaningOfLifeUniverseAndStuff())
 }
