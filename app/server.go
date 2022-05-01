@@ -19,12 +19,8 @@ func Run() {
 	})
 
 	http.HandleFunc("/hi", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, getHello())
+		fmt.Fprintf(w, "Hi")
 	})
 
 	log.Fatal(http.ListenAndServe(":8081", nil))
-}
-
-func getHello() string {
-	return "Hi"
 }
