@@ -2,7 +2,6 @@ package handlers
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"strconv"
 )
@@ -25,7 +24,6 @@ func handleLeaderboardClientNeighboursGet(responseWriter http.ResponseWriter, re
 		}
 
 		client_id = id
-		log.Printf("CLIENT ID = %d", client_id)
 	} else {
 		writeErrorResponse(responseWriter, http.StatusBadRequest, "Expected a client_id in query")
 		return
