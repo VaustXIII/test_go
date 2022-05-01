@@ -4,7 +4,7 @@ import "sort"
 
 type Client struct {
 	Id      int
-	Balance float32
+	Balance float32 // TODO decimal?
 }
 
 type Leaderboard struct {
@@ -59,4 +59,10 @@ func (leaderBoard *Leaderboard) GetClientBalanceNeighbours(client_id int) *Clien
 		return nil
 	}
 	return &result
+}
+
+func (leaderBoard *Leaderboard) AddAmountToAllClients(amount float32) {
+	for i, _ := range leaderBoard.clients {
+		leaderBoard.clients[i].Balance += amount
+	}
 }
