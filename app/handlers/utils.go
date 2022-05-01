@@ -29,7 +29,7 @@ func writeErrorResponse(responseWriter http.ResponseWriter, code int, message st
 	writeResponse(responseWriter, code, response)
 }
 
-func basicHandlerWrapper(handler func(http.ResponseWriter, *http.Request), acceptableMethods []int) http.HandlerFunc {
+func basicHandlerWrapper(handler func(http.ResponseWriter, *http.Request)) http.HandlerFunc {
 	return http.HandlerFunc(func(responseWriter http.ResponseWriter, request *http.Request) {
 		log.Printf("Handling %s request\n%+v", request.URL, *request)
 		// TODO handle exceptions?
