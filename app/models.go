@@ -2,7 +2,7 @@ package app
 
 type Client struct {
 	id      int
-	balance int
+	balance float32
 }
 
 type LeaderBoard struct {
@@ -20,7 +20,7 @@ type ClientBalanceNeighbours struct {
 	upper_id int
 }
 
-func (leaderBoard *LeaderBoard) AddClient(id int, balance int) {
+func (leaderBoard *LeaderBoard) AddClient(id int, balance float32) {
 	leaderBoard.clients[id] = Client{id: id, balance: balance}
 }
 
