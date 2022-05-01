@@ -1,0 +1,114 @@
+openapi: 3.0.0
+info:
+    title: test_go API
+    description: API of test_go service
+    version: 1.0.0
+servers:
+paths:
+    /ping:
+        get:
+            description: ping
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+    /leaderboard/client:
+        post:
+            description: Add a new client to leaderboard
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/Client"
+            responses:
+                "201":
+                    description: Added successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                items:
+                                    type: string
+                "400":
+                    description: Bad request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+
+    /leaderboard:
+        get:
+            description: Retrieve the whole leaderboard
+            responses:
+                "200":
+                    description: Retrieved successfully
+                    content:
+                        application/json:
+                            schema:
+                                type: array
+                                description: List of client in descending balance order
+                                items: 
+                                    $ref: "#/components/schemas/Client"
+
+    /leaderboard/client/neighbours:
+        get:
+            description: For a client_id get ids of clients with closest balances above and below
+            responses:
+                "200":
+                    description: Success
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/ClientBalanceNeighbours"
+                "400":
+                    description: Bad request
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+                "404":
+                    description: Client with client_id not found
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Error"
+
+components:
+    schemas:
+        Client:
+            type: object
+            properties:
+                client_id:
+                    type: integer
+                balance:
+                    type: number
+            required:
+                - client_id
+                - balance
+        ClientBalanceNeighbours:
+            type: object
+            properties:
+                lower_id:
+                    type: integer
+                    description: id of client with closest balance less than the balance of specified client
+                upper_id:
+                    type: integer
+                    description: id of client with closest balance greater than the balance of specified client
+            required:
+                - lower_id
+                - upper_id
+        Error:
+            type: object
+            properties:
+                code:
+                    type: integer
+                message:
+                    type: string
+            required:
+                - code
+                - message

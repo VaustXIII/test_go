@@ -18,6 +18,7 @@ func Run(amountAddedEveryHour float32) {
 	http.HandleFunc("/leaderboard/client", handlers.LeaderboardClientPost)
 	http.HandleFunc("/leaderboard", handlers.LeaderboardGet)
 	http.HandleFunc("/leaderboard/client/neighbours", handlers.LeaderboardClientNeighboursGet)
+	// TODO: 405 on wrong http methods?
 
 	log.Println("Running")
 	log.Fatal(http.ListenAndServe(":8081", nil))
