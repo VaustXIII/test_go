@@ -7,8 +7,10 @@ import (
 	"net/http"
 )
 
-func getHello() string {
-	return "Hi"
+var data *LeaderBoard
+
+func Init() {
+	data = NewLeaderBoard()
 }
 
 func Run() {
@@ -21,4 +23,8 @@ func Run() {
 	})
 
 	log.Fatal(http.ListenAndServe(":8081", nil))
+}
+
+func getHello() string {
+	return "Hi"
 }
