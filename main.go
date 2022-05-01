@@ -1,26 +1,7 @@
 package main
 
-import (
-	"fmt"
-	"html"
-	"log"
-	"net/http"
-)
-
-func GetHello() string {
-	return "Hi"
-}
+import app "github.com/VaustXIII/test_go/app"
 
 func main() {
-
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Hello, %q", html.EscapeString(r.URL.Path))
-	})
-
-	http.HandleFunc("/hi", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(w, GetHello())
-	})
-
-	log.Fatal(http.ListenAndServe(":8081", nil))
-
+	app.Run()
 }
