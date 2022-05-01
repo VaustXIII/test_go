@@ -1,16 +1,16 @@
 package app
 
 type Client struct {
-	id      int
-	balance float32
+	Id      int
+	Balance float32
 }
 
-type LeaderBoard struct {
+type Leaderboard struct {
 	clients map[int]Client
 }
 
-func NewLeaderBoard() *LeaderBoard {
-	result := LeaderBoard{}
+func NewLeaderboard() *Leaderboard {
+	result := Leaderboard{}
 	result.clients = make(map[int]Client)
 	return &result
 }
@@ -20,15 +20,15 @@ type ClientBalanceNeighbours struct {
 	upper_id int
 }
 
-func (leaderBoard *LeaderBoard) AddClient(id int, balance float32) {
-	leaderBoard.clients[id] = Client{id: id, balance: balance}
+func (leaderBoard *Leaderboard) AddClient(id int, balance float32) {
+	leaderBoard.clients[id] = Client{Id: id, Balance: balance}
 }
 
-func (leaderBoard *LeaderBoard) GetClients() map[int]Client {
-	return leaderBoard.clients
+func (leaderBoard *Leaderboard) GetClients() *map[int]Client {
+	return &leaderBoard.clients
 }
 
-func (leaderBoard *LeaderBoard) GetClientBalanceNeighbours(client_id int) ClientBalanceNeighbours {
+func (leaderBoard *Leaderboard) GetClientBalanceNeighbours(client_id int) ClientBalanceNeighbours {
 	result := ClientBalanceNeighbours{lower_id: -1, upper_id: -1}
 	// TODO implement
 	return result

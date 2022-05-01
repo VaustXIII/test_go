@@ -8,20 +8,20 @@ import (
 func TestLeaderBoardAddAndGet(t *testing.T) {
 
 	t.Run("Empty", func(t *testing.T) {
-		var leaderBoard = NewLeaderBoard()
+		var leaderBoard = NewLeaderboard()
 		var expected = 0
-		var actual = len(leaderBoard.GetClients())
+		var actual = len(*leaderBoard.GetClients())
 		if actual != expected {
 			t.Errorf("got %d, want %d", actual, expected)
 		}
 	})
 
 	t.Run("Adding a client", func(t *testing.T) {
-		var leaderBoard = NewLeaderBoard()
+		var leaderBoard = NewLeaderboard()
 		leaderBoard.AddClient(1, 123)
 
-		var expected = map[int]Client{
-			1: {id: 1, balance: 123},
+		var expected = &map[int]Client{
+			1: {Id: 1, Balance: 123},
 		}
 		var actual = leaderBoard.GetClients()
 		if !reflect.DeepEqual(actual, expected) {
@@ -30,13 +30,13 @@ func TestLeaderBoardAddAndGet(t *testing.T) {
 	})
 
 	t.Run("Adding another client", func(t *testing.T) {
-		var leaderBoard = NewLeaderBoard()
+		var leaderBoard = NewLeaderboard()
 		leaderBoard.AddClient(1, 123)
 		leaderBoard.AddClient(5, 987.1)
 
-		var expected = map[int]Client{
-			1: {id: 1, balance: 123},
-			5: {id: 5, balance: 987.1},
+		var expected = &map[int]Client{
+			1: {Id: 1, Balance: 123},
+			5: {Id: 5, Balance: 987.1},
 		}
 		var actual = leaderBoard.GetClients()
 		if !reflect.DeepEqual(actual, expected) {
