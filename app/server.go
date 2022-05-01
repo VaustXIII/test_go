@@ -24,7 +24,3 @@ func Run() {
 
 	log.Fatal(http.ListenAndServe(":8081", nil))
 }
-
-func getHello() string {
-	return "Hi"
-}
