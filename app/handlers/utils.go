@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 )
 
@@ -26,4 +27,12 @@ func WriteErrorResponse(responseWriter http.ResponseWriter, code int, message st
 
 	var response = ErrorResponse{Code: http.StatusText(code), Message: message}
 	WriteResponse(responseWriter, code, response)
+}
+
+func basicHandlerWrapper(handler func(http.ResponseWriter, *http.Request)) http.HandlerFunc {
+	return http.HandlerFunc(func(responseWriter http.ResponseWriter, request *http.Request) {
+		log.Printf("Handling %s request\n%+v", request.URL, *request)
+		// TODO handle exceptions?
+		handler(responseWriter, request)
+	})
 }

@@ -3,12 +3,12 @@ package handlers
 import (
 	"encoding/json"
 	"errors"
-	"log"
 	"net/http"
 )
 
-func HandleLeaderboardClientPost(responseWriter http.ResponseWriter, request *http.Request) {
-	log.Printf("Handling %s request\n%+v", request.URL, *request)
+var LeaderboardClientPost = basicHandlerWrapper(handleLeaderboardClientPost)
+
+func handleLeaderboardClientPost(responseWriter http.ResponseWriter, request *http.Request) {
 	type HandlerRequest struct {
 		Client_id *int
 		Balance   *float32

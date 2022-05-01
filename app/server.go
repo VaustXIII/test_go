@@ -13,9 +13,9 @@ var leaderboard *models.Leaderboard
 func Run() {
 	initialize()
 
-	http.HandleFunc("/ping", handlers.HandlePing)
-	http.HandleFunc("/leaderboard/client", handlers.HandleLeaderboardClientPost)
-	http.HandleFunc("/leaderboard", handlers.HandleLeaderboardGet)
+	http.HandleFunc("/ping", handlers.Ping)
+	http.HandleFunc("/leaderboard/client", handlers.LeaderboardClientPost)
+	http.HandleFunc("/leaderboard", handlers.LeaderboardGet)
 
 	log.Fatal(http.ListenAndServe(":8081", nil))
 }
