@@ -32,10 +32,10 @@ func handleLeaderboardClientPost(responseWriter http.ResponseWriter, request *ht
 	var parseErr = parseRequest(request, &parsedRequest)
 
 	if parseErr != nil {
-		WriteErrorResponse(responseWriter, http.StatusBadRequest, parseErr.Error())
+		writeErrorResponse(responseWriter, http.StatusBadRequest, parseErr.Error())
 		return
 	}
 	leaderboard.AddClient(*parsedRequest.Client_id, *parsedRequest.Balance)
 
-	WriteResponse(responseWriter, http.StatusCreated, nil)
+	writeResponse(responseWriter, http.StatusCreated, nil)
 }

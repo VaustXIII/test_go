@@ -9,7 +9,7 @@ import (
 const kContentType = "Content-Type"
 const kApplicationJson = "application/json"
 
-func WriteResponse(responseWriter http.ResponseWriter, code int, data any) {
+func writeResponse(responseWriter http.ResponseWriter, code int, data any) {
 	if data != nil {
 		responseWriter.Header().Set(kContentType, kApplicationJson)
 	}
@@ -19,17 +19,17 @@ func WriteResponse(responseWriter http.ResponseWriter, code int, data any) {
 	}
 }
 
-func WriteErrorResponse(responseWriter http.ResponseWriter, code int, message string) {
+func writeErrorResponse(responseWriter http.ResponseWriter, code int, message string) {
 	type ErrorResponse struct {
 		Code    string
 		Message string
 	}
 
 	var response = ErrorResponse{Code: http.StatusText(code), Message: message}
-	WriteResponse(responseWriter, code, response)
+	writeResponse(responseWriter, code, response)
 }
 
-func basicHandlerWrapper(handler func(http.ResponseWriter, *http.Request)) http.HandlerFunc {
+func basicHandlerWrapper(handler func(http.ResponseWriter, *http.Request), acceptableMethods []int) http.HandlerFunc {
 	return http.HandlerFunc(func(responseWriter http.ResponseWriter, request *http.Request) {
 		log.Printf("Handling %s request\n%+v", request.URL, *request)
 		// TODO handle exceptions?

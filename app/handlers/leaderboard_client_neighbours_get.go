@@ -14,29 +14,29 @@ func handleLeaderboardClientNeighboursGet(responseWriter http.ResponseWriter, re
 	var client_id int
 	if client_id_param, ok := query["client_id"]; ok {
 		if len(client_id_param) > 1 {
-			WriteErrorResponse(responseWriter, http.StatusBadRequest, "Expected one client_id in query")
+			writeErrorResponse(responseWriter, http.StatusBadRequest, "Expected one client_id in query")
 			return
 		}
 
 		id, err := strconv.Atoi(client_id_param[0])
 		if err != nil {
-			WriteErrorResponse(responseWriter, http.StatusBadRequest, "client_id must be an integer")
+			writeErrorResponse(responseWriter, http.StatusBadRequest, "client_id must be an integer")
 			return
 		}
 
 		client_id = id
 		log.Printf("CLIENT ID = %d", client_id)
 	} else {
-		WriteErrorResponse(responseWriter, http.StatusBadRequest, "Expected a client_id in query")
+		writeErrorResponse(responseWriter, http.StatusBadRequest, "Expected a client_id in query")
 		return
 	}
 
 	var result = leaderboard.GetClientBalanceNeighbours(client_id)
 
 	if result == nil {
-		WriteErrorResponse(responseWriter, http.StatusNotFound, fmt.Sprint("Could not find the client with id: ", client_id))
+		writeErrorResponse(responseWriter, http.StatusNotFound, fmt.Sprint("Could not find the client with id: ", client_id))
 		return
 	}
 
-	WriteResponse(responseWriter, http.StatusOK, result)
+	writeResponse(responseWriter, http.StatusOK, result)
 }
