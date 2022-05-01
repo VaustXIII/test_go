@@ -29,8 +29,8 @@ func (leaderBoard *Leaderboard) AddClient(id int, balance float32) {
 	})
 }
 
-func (leaderBoard *Leaderboard) GetClients() *[]Client {
-	return &leaderBoard.clients
+func (leaderBoard *Leaderboard) GetClients() []Client {
+	return leaderBoard.clients
 }
 
 func (leaderBoard *Leaderboard) GetClientBalanceNeighbours(client_id int) *ClientBalanceNeighbours {
@@ -39,11 +39,17 @@ func (leaderBoard *Leaderboard) GetClientBalanceNeighbours(client_id int) *Clien
 	var found = false
 	for i := 0; i < len(clients); i++ {
 		if clients[i].Id == client_id {
-			if i > 0 {
-				result.Upper_id = clients[i-1].Id
+			for j := i - 1; j >= 0; j-- {
+				if clients[j].Balance != clients[i].Balance {
+					result.Upper_id = clients[j].Id
+					break
+				}
 			}
-			if i < len(clients)-1 {
-				result.Lower_id = clients[i+1].Id
+			for j := i + 1; j < len(clients); j++ {
+				if clients[j].Balance != clients[i].Balance {
+					result.Lower_id = clients[j].Id
+					break
+				}
 			}
 			found = true
 			break
