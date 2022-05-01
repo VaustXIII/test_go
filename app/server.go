@@ -16,7 +16,7 @@ func Run() {
 	http.HandleFunc("/ping", handlers.Ping)
 	http.HandleFunc("/leaderboard/client", handlers.LeaderboardClientPost)
 	http.HandleFunc("/leaderboard", handlers.LeaderboardGet)
-
+	http.HandleFunc("/leaderboard/client/neighbours", handlers.LeaderboardClientNeighboursGet)
 	log.Fatal(http.ListenAndServe(":8081", nil))
 }
 
