@@ -58,6 +58,13 @@ paths:
     /leaderboard/client/neighbours:
         get:
             description: For a client_id get ids of clients with closest balances above and below
+            parameters:
+              - in: path
+                name: client_id
+                schema:
+                    type: integer
+                required: true
+                description: Id of a client, for whom to get the neighbours
             responses:
                 "200":
                     description: Success
