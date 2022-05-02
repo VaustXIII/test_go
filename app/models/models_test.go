@@ -2,6 +2,7 @@ package models
 
 import (
 	"reflect"
+	"sync"
 	"testing"
 )
 
@@ -98,4 +99,77 @@ func TestLeaderBoardGetClientBalanceNeighbours(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestLeaderboardMultithreadSafenessAddClient(t *testing.T) {
+	t.Run("test", func(t *testing.T) {
+		var leaderBoard = NewLeaderboard()
+
+		operationsCount := 1_000
+
+		var expected = make([]Client, operationsCount)
+		for i := 0; i < operationsCount; i++ {
+			var reverseId = operationsCount - 1 - i
+			var reverseBalance = float32(reverseId)
+			expected[i] = Client{Id: reverseId, Balance: reverseBalance}
+		}
+
+		var waitGroup sync.WaitGroup
+		waitGroup.Add(3)
+
+		go func() {
+			defer waitGroup.Done()
+
+			var innerWaitGroup sync.WaitGroup
+			innerWaitGroup.Add(operationsCount)
+
+			for i := 0; i < operationsCount; i++ {
+				go func(iter int) {
+					defer innerWaitGroup.Done()
+					leaderBoard.AddClient(iter, float32(iter))
+				}(i)
+			}
+
+			innerWaitGroup.Wait()
+		}()
+		go func() {
+			defer waitGroup.Done()
+
+			var innerWaitGroup sync.WaitGroup
+			innerWaitGroup.Add(operationsCount)
+
+			for i := 0; i < operationsCount; i++ {
+				go func(iter int) {
+					defer innerWaitGroup.Done()
+					var _, readLock = leaderBoard.GetClients()
+					readLock.RUnlock()
+				}(i)
+			}
+			innerWaitGroup.Wait()
+		}()
+
+		go func() {
+			defer waitGroup.Done()
+
+			var innerWaitGroup sync.WaitGroup
+			innerWaitGroup.Add(operationsCount)
+
+			for i := 0; i < operationsCount; i++ {
+				go func(iter int) {
+					defer innerWaitGroup.Done()
+					var _ = leaderBoard.GetClientBalanceNeighbours(iter)
+				}(i)
+			}
+			innerWaitGroup.Wait()
+		}()
+
+		waitGroup.Wait()
+
+		var actual, readLock = leaderBoard.GetClients()
+		defer readLock.RUnlock()
+
+		if !reflect.DeepEqual(actual, expected) {
+			t.Errorf("actual %v != expected %v", actual, expected)
+		}
+	})
 }
