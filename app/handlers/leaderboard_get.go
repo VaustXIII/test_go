@@ -7,7 +7,8 @@ import (
 var LeaderboardGet = basicHandlerWrapper(handleLeaderboardGet)
 
 func handleLeaderboardGet(responseWriter http.ResponseWriter, request *http.Request) {
-	var data = leaderboard.GetClients()
+	var data, readLock = leaderboard.GetClients()
+	defer readLock.RUnlock()
 
 	writeResponse(responseWriter, http.StatusOK, data)
 }

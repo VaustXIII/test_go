@@ -32,7 +32,8 @@ func TestLeaderboardAddAndGet(t *testing.T) {
 			for _, client := range tt.adds {
 				leaderBoard.AddClient(client.Id, client.Balance)
 			}
-			var actual = leaderBoard.GetClients()
+			var actual, readLock = leaderBoard.GetClients()
+			readLock.RUnlock()
 
 			if !reflect.DeepEqual(actual, tt.expected) {
 				t.Errorf("actual %v != expected %v", actual, tt.expected)
