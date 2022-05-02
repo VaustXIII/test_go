@@ -3,7 +3,7 @@ Golang test
 
 ## Description
 Upon running a web server will start listening on localhost:8081  
-See available handlers in [api\api.yaml](api\api.yaml)
+See available handlers in [api/api.yaml](api/api.yaml)
 
 ## Building/running
 Requirements - go 1.18
@@ -28,8 +28,9 @@ build\app.exe
 go test ./...
 ```
 
+## Task requirements
 <details> 
-  <summary>Task requirements (in russian)</summary>
+  <summary>Task requirements (in Russian)</summary>
 В решении можно использовать любые стандартные библиотеки.
 Описать структуру клиента, у которого есть идентификатор и баланс. 
 Описать структуру лидерборда, у которого есть методы:
